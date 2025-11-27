@@ -35,6 +35,41 @@ def get_mps_and_keys(api_url):
     mpd = response_json.get('MPD')
     keys = response_json.get('KEYS')
     return mpd, keys
+
+def get_mps_and_keys2(api_url):
+    try:
+        response = requests.get(api_url, timeout=10)
+        response.raise_for_status()  # Raises exception for 4xx/5xx status codes
+        response_json = response.json()
+        mpd = response_json.get('mpd_url')
+        keys = response_json.get('keys')
+        return mpd, keys
+    except RequestException as e:
+        print(f"Request failed: {e}")
+        return None, None
+    except ValueError as e:
+        print(f"JSON decode error: {e}")
+        return None, None
+    
+def get_mps_and_keys3(api_url):
+    try:
+        response = requests.get(api_url, timeout=10)
+        response.raise_for_status()  # Raises exception for 4xx/5xx status codes
+        response_json = response.json()
+        mpd = response_json.get('url')
+        return mpd
+    except RequestException as e:
+        print(f"Request failed: {e}")
+        return None
+    except ValueError as e:
+        print(f"JSON decode error: {e}")
+        return Nonedef get_mps_and_keys(api_url):
+    response = requests.get(api_url)
+    response_json = response.json()
+    mpd = response_json.get('MPD')
+    keys = response_json.get('KEYS')
+    return mpd, keys
+
    
 def exec(cmd):
         process = subprocess.run(cmd, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
